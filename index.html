@@ -288,6 +288,11 @@
   </span><span class="s2">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<blockquote>
+<p>Once you have your access_token, if you&#39;re using axios, you can include it like this for it to be sent in every request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">common</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1FUkdRakUzTAiOiJKV1QiLC..etc'</span>
+</code></pre>
 <p>RedIn uses Auth0 Application keys to allow access to the API. To retrieve your access_token you must request it using the example on the right of this screen, or using any http client (curl, guzzlehttp, etc).</p>
 
 <p>RedIn expects for the Authorization header to be included in <strong> all </strong> API requests to the server in a header that looks like the following:</p>
@@ -308,7 +313,7 @@ This access_token will expire every 86400 seconds (24 hours).
   --url https://fidely.auth0.com/oauth/token \
   --header &#39;content-type: application/json&#39; \
   --data &#39;{&quot;client_id&quot;:&quot;your_static_client_id&quot;,&quot;client_secret&quot;:&quot;your_static_client_secret&quot;,&quot;audience&quot;:&quot;https://api.redin.com.ar&quot;,&quot;grant_type&quot;:&quot;client_credentials&quot;}&#39;</code></p>
-<h1 id='shops-benefits'>Shops/Benefits</h1><h2 id='get-all-filters-for-shops-benefits'>Get All Filters for Shops/Benefits</h2><pre class="highlight javascript tab-javascript"><code><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'http://138.197.65.37/api/v1/shops/rootFilters'</span><span class="p">,</span> <span class="p">{</span>
+<h1 id='shops-benefits'>Shops/Benefits</h1><h2 id='get-all-filters-for-shops-benefits'>Get All Filters for Shops/Benefits</h2><pre class="highlight javascript tab-javascript"><code><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'https://ws.redin.com.ar/api/v1/shops/rootFilters'</span><span class="p">,</span> <span class="p">{</span>
 <span class="p">}).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">filters</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
   <span class="p">});</span>
@@ -384,7 +389,7 @@ This access_token will expire every 86400 seconds (24 hours).
 </span></code></pre>
 <p>This endpoint retrieves all the filters needed for listing.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://138.197.65.37/api/v1/shops/rootFilters</code></p>
+<p><code>GET https://ws.redin.com.ar/api/v1/shops/rootFilters</code></p>
 <h3 id='returns'>Returns</h3>
 <table><thead>
 <tr>
@@ -398,7 +403,7 @@ This access_token will expire every 86400 seconds (24 hours).
 </tr>
 <tr>
 <td>Subcategories</td>
-<td>Available subcategories of the shops/benefits</td>
+<td>IN DEVELOPMENT</td>
 </tr>
 <tr>
 <td>Provincies</td>
@@ -415,7 +420,7 @@ This access_token will expire every 86400 seconds (24 hours).
 <span class="kd">let</span> <span class="nx">provincies</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
 
 
-<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'http://138.197.65.37/api/v1/shops/citiesByProvincies'</span><span class="p">,</span> <span class="p">{</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'https://ws.redin.com.ar/api/v1/shops/citiesByProvincies'</span><span class="p">,</span> <span class="p">{</span>
     <span class="nx">provincies</span> <span class="c1">// required</span>
   <span class="p">})</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
@@ -451,7 +456,7 @@ This access_token will expire every 86400 seconds (24 hours).
 </span></code></pre>
 <p>This endpoint retrieves all the cities, per the selected provincies for listing in the filters.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://138.197.65.37/api/v1/shops/index?paginate=20&amp;page=1</code></p>
+<p><code>GET https://ws.redin.com.ar/api/v1/shops/index?paginate=20&amp;page=1</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -474,18 +479,20 @@ This access_token will expire every 86400 seconds (24 hours).
 <span class="kd">let</span> <span class="nx">filters</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">provincies</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
   <span class="na">cities</span><span class="p">:</span> <span class="p">[</span><span class="mi">20900</span><span class="p">],</span>
-  <span class="na">categories</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-  <span class="na">textQueryInput</span><span class="p">:</span> <span class="s1">'Farmacia'</span>
+  <span class="na">categories</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+  <span class="na">textQueryInput</span><span class="p">:</span> <span class="s1">'Farmacia'</span><span class="p">,</span>
+  <span class="na">idPadre</span><span class="p">:</span> <span class="mi">4</span>
 <span class="p">}</span>
 
 
-<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'http://138.197.65.37/api/v1/shops/index'</span><span class="p">,</span> <span class="p">{</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'https://ws.redin.com.ar/api/v1/shops/index'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">paginate</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// required - int - Qty of items to paginate</span>
   <span class="na">page</span><span class="p">:</span> <span class="mi">1</span>  <span class="c1">// required - int - Page the user requested</span>
   <span class="nx">filters</span><span class="p">.</span><span class="nx">provincies</span>  <span class="c1">// optional - array of integers -  Get by provincies using the provincies id's gathered in /rootFilters</span>
   <span class="nx">filters</span><span class="p">.</span><span class="nx">cities</span> <span class="c1">// optional - array of integers - Get by cities using the cities id's gathered in /rootFilters</span>
   <span class="nx">filters</span><span class="p">.</span><span class="nx">categories</span>  <span class="c1">// optional - array of integers - Get by categories using the categories id's gathered in /rootFilters</span>
   <span class="nx">filters</span><span class="p">.</span><span class="nx">textQueryInput</span> <span class="c1">// optional - string - Search by user text input - will try to match to the field "NombreFantasia" of Shops/Benefits by using a LIKE comparisson</span>
+  <span class="nx">filters</span><span class="p">.</span><span class="nx">idPadre</span> <span class="c1">// *NEW* optional - int - get all shops that belong to a same brand</span>
   <span class="p">})</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
@@ -498,41 +505,110 @@ This access_token will expire every 86400 seconds (24 hours).
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"Shops"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SUR MADERAS"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUENOS AIRES"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MAR DEL PLATA"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">20900</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LOVAAS"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUENOS AIRES"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MAR DEL PLATA"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">20900</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MUNDO FITNESS"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BUENOS AIRES"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MAR DEL PLATA"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">20900</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"Shops"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"NombreFantasia"</span><span class="p">:</span> <span class="s2">"FARMACIA SAN FRANCISCO"</span><span class="p">,</span>
+            <span class="s2">"IDComercio"</span><span class="p">:</span> <span class="mi">1053</span><span class="p">,</span>
+            <span class="s2">"Rubro"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="s2">"Web"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"Logo"</span><span class="p">:</span> <span class="s2">"redin.com.ar/files/logos/comercio_20012015130252.png"</span><span class="p">,</span>
+            <span class="s2">"Provincia"</span><span class="p">:</span> <span class="s2">"SALTA"</span><span class="p">,</span>
+            <span class="s2">"IDProvincia"</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+            <span class="s2">"Ciudad"</span><span class="p">:</span> <span class="s2">"SALTA"</span><span class="p">,</span>
+            <span class="s2">"IDCiudad"</span><span class="p">:</span> <span class="mi">11566</span><span class="p">,</span>
+            <span class="s2">"Domicilio"</span><span class="p">:</span> <span class="s2">"DEAN FUNES 596"</span><span class="p">,</span>
+            <span class="s2">"Latitud"</span><span class="p">:</span> <span class="s2">"-24.7826702"</span><span class="p">,</span>
+            <span class="s2">"Longitud"</span><span class="p">:</span> <span class="s2">"-65.40757680000002"</span><span class="p">,</span>
+            <span class="s2">"Descuento1"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento2"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento3"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento4"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento5"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento6"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento7"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos1"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos2"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos3"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos4"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos5"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos6"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos7"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"ModalidadEfectivo"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"ModalidadDebito"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"ModalidadCredito"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"IDPadre"</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"NombreFantasia"</span><span class="p">:</span> <span class="s2">"FARMACIA SAN FRANCISCO"</span><span class="p">,</span>
+            <span class="s2">"IDComercio"</span><span class="p">:</span> <span class="mi">1053</span><span class="p">,</span>
+            <span class="s2">"Rubro"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="s2">"Web"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"Logo"</span><span class="p">:</span> <span class="s2">"redin.com.ar/files/logos/comercio_20012015130252.png"</span><span class="p">,</span>
+            <span class="s2">"Provincia"</span><span class="p">:</span> <span class="s2">"SALTA"</span><span class="p">,</span>
+            <span class="s2">"IDProvincia"</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+            <span class="s2">"Ciudad"</span><span class="p">:</span> <span class="s2">"SALTA"</span><span class="p">,</span>
+            <span class="s2">"IDCiudad"</span><span class="p">:</span> <span class="mi">11566</span><span class="p">,</span>
+            <span class="s2">"Domicilio"</span><span class="p">:</span> <span class="s2">"DEAN FUNES 596"</span><span class="p">,</span>
+            <span class="s2">"Latitud"</span><span class="p">:</span> <span class="s2">"-24.7826702"</span><span class="p">,</span>
+            <span class="s2">"Longitud"</span><span class="p">:</span> <span class="s2">"-65.40757680000002"</span><span class="p">,</span>
+            <span class="s2">"Descuento1"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento2"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento3"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento4"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento5"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento6"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"Descuento7"</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos1"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  
+            <span class="s2">"MultiplicaPuntos2"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos3"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos4"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos5"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos6"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos7"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"ModalidadEfectivo"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"ModalidadDebito"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"ModalidadCredito"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"IDPadre"</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"NombreFantasia"</span><span class="p">:</span> <span class="s2">"FARMACIA SAN FRANCISCO"</span><span class="p">,</span>
+            <span class="s2">"IDComercio"</span><span class="p">:</span> <span class="mi">1053</span><span class="p">,</span>
+            <span class="s2">"Rubro"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="s2">"Web"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"Logo"</span><span class="p">:</span> <span class="s2">"redin.com.ar/files/logos/comercio_20012015130252.png"</span><span class="p">,</span>
+            <span class="s2">"Provincia"</span><span class="p">:</span> <span class="s2">"SALTA"</span><span class="p">,</span>
+            <span class="s2">"IDProvincia"</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+            <span class="s2">"Ciudad"</span><span class="p">:</span> <span class="s2">"SALTA"</span><span class="p">,</span>
+            <span class="s2">"IDCiudad"</span><span class="p">:</span> <span class="mi">11566</span><span class="p">,</span>
+            <span class="s2">"Domicilio"</span><span class="p">:</span> <span class="s2">"DEAN FUNES 596"</span><span class="p">,</span>
+            <span class="s2">"Latitud"</span><span class="p">:</span> <span class="s2">"-24.7826702"</span><span class="p">,</span>
+            <span class="s2">"Longitud"</span><span class="p">:</span> <span class="s2">"-65.40757680000002"</span><span class="p">,</span>
+            <span class="s2">"Descuento1"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"Descuento2"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"Descuento3"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"Descuento4"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"Descuento5"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"Descuento6"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"Descuento7"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos1"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos2"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos3"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos4"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos5"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos6"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"MultiplicaPuntos7"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"ModalidadEfectivo"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"ModalidadDebito"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"ModalidadCredito"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"IDPadre"</span><span class="p">:</span> <span class="mi">4</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
 <p>This endpoint retrieves all the shops, paginated.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>GET http://138.197.65.37/api/v1/shops/index?paginate=20&amp;page=1</code></p>
+<p><code>GET https://ws.redin.com.ar/api/v1/shops/index?paginate=20&amp;page=1</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -584,10 +660,24 @@ This access_token will expire every 86400 seconds (24 hours).
 <td>string</td>
 <td>optional</td>
 </tr>
+<tr>
+<td>filters[&#39;father_id&#39;]</td>
+<td>ID of associated shops</td>
+<td>int</td>
+<td>optional</td>
+</tr>
 </tbody></table>
 
 <aside class="warning"> <strong>Important: </strong>  When a new filter search is requested, set the page to 1.</aside>
-<h2 id='get-all-shops-benefits'>Get All Shops/Benefits</h2><pre class="highlight javascript tab-javascript"><code><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'http://138.197.65.37/api/v1/shops/all'</span><span class="p">,</span> <span class="p">{</span>
+<h3 id='discounts-and-points-explained'>Discounts and points explained</h3>
+<p>Each number in the keys of &#39;Descuento&#39; and &#39;MultiplicaPuntos&#39; represents the day in the week in which the action takes place. IMPORTANT: Discounts can equal 0, meaning there is no discount <br>
+ eg: &#39;DESCUENTO2: 15&#39; means 15% Discount on Tuesdays. &#39;MultiplicaPuntos1: 3&#39; means x3 points multiplier on Mondays.</p>
+
+<p>The system rewards with points the amount of the transaction amount by the points multiplier. IMPORTANT: Points Multiplier can equal 0, meaning there is no points reward <br>
+ eg: A $1000 transaction with &#39;MultiplicaPuntos: 1&#39; will reward 1000 points, but when having a x3 multiplier you would get 3000 points instead, each point is worth 1 cent that you can spend in swaps.</p>
+<h3 id='payment-methods'>Payment Methods</h3>
+<p>&#39;ModalidadDebito&#39;, &#39;ModalidadCredito&#39; and &#39;ModalidadEfectivo&#39; each represent in boolean type the accepted payment methods.</p>
+<h2 id='get-all-shops-benefits'>Get All Shops/Benefits</h2><pre class="highlight javascript tab-javascript"><code><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'https://ws.redin.com.ar/api/v1/shops/all'</span><span class="p">,</span> <span class="p">{</span>
 <span class="p">}).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">shops</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Shops</span><span class="p">;</span>
   <span class="p">});</span>
@@ -595,51 +685,109 @@ This access_token will expire every 86400 seconds (24 hours).
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"Shops"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CASA MAINI"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1727</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SANTA FE"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ANDINO"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">1438</span><span class="w">
+            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FARMACIA SAN FRANCISCO"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1053</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Web"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"redin.com.ar/files/logos/comercio_20012015130252.png"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">11566</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Domicilio"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEAN FUNES 596"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Latitud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-24.7826702"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Longitud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-65.40757680000002"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento1"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento2"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento3"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento4"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento5"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento6"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento7"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos2"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos3"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos4"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos5"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos6"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos7"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadEfectivo"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadDebito"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadCredito"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CASA MAINI"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1729</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SANTA FE"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTO GRANDE"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">1461</span><span class="w">
+            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FARMACIA SAN FRANCISCO"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1053</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Web"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"redin.com.ar/files/logos/comercio_20012015130252.png"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">11566</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Domicilio"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEAN FUNES 596"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Latitud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-24.7826702"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Longitud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-65.40757680000002"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento1"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento2"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento3"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento4"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento5"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento6"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento7"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos2"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos3"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos4"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos5"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos6"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos7"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadEfectivo"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadDebito"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadCredito"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CASA MAINI"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1721</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SANTA FE"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SERODINO"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">1465</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BOREAL PINTURAS"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1713</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SANTA FE"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GRANADERO BAIGORRIA"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">2078</span><span class="w">
+            </span><span class="s2">"NombreFantasia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FARMACIA SAN FRANCISCO"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDComercio"</span><span class="p">:</span><span class="w"> </span><span class="mi">1053</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rubro"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Web"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Logo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"redin.com.ar/files/logos/comercio_20012015130252.png"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Provincia"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDProvincia"</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Ciudad"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SALTA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"IDCiudad"</span><span class="p">:</span><span class="w"> </span><span class="mi">11566</span><span class="p">,</span><span class="w">
+
+            </span><span class="s2">"Domicilio"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEAN FUNES 596"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Latitud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-24.7826702"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Longitud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-65.40757680000002"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento1"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento2"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento3"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento4"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento5"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento6"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Descuento7"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos2"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos3"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos4"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos5"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos6"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"MultiplicaPuntos7"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadEfectivo"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadDebito"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ModalidadCredito"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
         </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
 </span></code></pre>
 <p>This endpoint retrieves all the listed shops.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
-<p><code>GET http://138.197.65.37/api/v1/shops/all</code></p>
+<p><code>GET https://ws.redin.com.ar/api/v1/shops/all</code></p>
 <h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
